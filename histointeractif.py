@@ -72,16 +72,31 @@ if __name__ == '__main__':
     recap['index'] = recap.index
     column_to_move = recap.pop("index")
     recap.insert(0, "index", column_to_move)
-    recap = recap.drop(['min', 'max'], axis=0)
+    recap = recap.drop(['longitude', 'latitude'], axis=1)
 
     d_columns = [{'name': x, 'id': x} for x in recap.columns]
 
-    d_table = DataTable(
+    d_recap = DataTable(
         columns=d_columns,
         data=recap.to_dict('records'),
         cell_selectable=True,
         sort_action='native',
+        filter_action='native'
+    )
+
+    data = france
+    data = data.drop(['longitude', 'latitude'], axis=1)
+    d_columns = [{'name': x, 'id': x} for x in data.columns]
+
+    d_table = DataTable(
+        columns=d_columns,
+        data=data.to_dict('records'),
+        cell_selectable=True,
+        sort_action='native',
         filter_action='native',
+        page_action='native',
+        page_current=0,
+        page_size=10
     )
 
 
@@ -144,9 +159,14 @@ if __name__ == '__main__':
             dcc.Graph(id="graph"),
         ]),
         html.Div(
+            children=[d_recap],
+            style={'width': '850px', 'height': '450px', 'margin': '0 auto'}
+        ),
+        html.Div(
             children=[d_table],
             style={'width': '850px', 'height': '750px', 'margin': '0 auto'}
-        )],
+        ),
+    ],
         style={'text-align':'center', 'display':'inline-block', 'width':'100%'}
     )
 
