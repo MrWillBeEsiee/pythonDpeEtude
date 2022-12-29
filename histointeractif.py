@@ -68,10 +68,16 @@ if __name__ == '__main__':
     map_point.update_layout(autosize=True)
 
     recap = france.describe()
-    recapDict = [{'name': x, 'id': x} for x in france.columns]
+    recap = france.describe()
+    recap['index'] = recap.index
+    column_to_move = recap.pop("index")
+    recap.insert(0, "index", column_to_move)
+    recap = recap.drop(['min', 'max'], axis=0)
+
+    d_columns = [{'name': x, 'id': x} for x in recap.columns]
 
     d_table = DataTable(
-        columns=recapDict,
+        columns=d_columns,
         data=recap.to_dict('records'),
         cell_selectable=True,
         sort_action='native',
@@ -138,8 +144,8 @@ if __name__ == '__main__':
             dcc.Graph(id="graph"),
         ]),
         html.Div(
-            children=[recapDict],
-            style={'width':'850px', 'height':'750px', 'margin':'0 auto'}
+            children=[d_table],
+            style={'width': '850px', 'height': '750px', 'margin': '0 auto'}
         )],
         style={'text-align':'center', 'display':'inline-block', 'width':'100%'}
     )
