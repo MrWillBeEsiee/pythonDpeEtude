@@ -24,6 +24,14 @@ def add_logo():
                'display': 'inline-block'})
     return corp_logo
 
+def addConsommationImage():
+    corp_logo = html.Img(
+        src='https://www.mesdepanneurs.fr/sites/default/files/blog/etiquette-energie-GES.jpeg',
+        style={'margin': '20px 20px 5px 5px',
+               'border': '1px dashed lightblue',
+               'display': 'inline-block'})
+    return corp_logo
+
 
 def style_c():
     layout_style = {
@@ -68,7 +76,6 @@ if __name__ == '__main__':
     map_point.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
     map_point.update_layout(autosize=True)
 
-    recap = france.describe()
     recap = france.describe()
     recap['index'] = recap.index
     column_to_move = recap.pop("index")
@@ -163,6 +170,7 @@ if __name__ == '__main__':
             ),
             dcc.Graph(id="graph"),
         ]),
+        addConsommationImage(),
         html.Div(
             children=[d_recap],
             style={'width': '850px', 'height': '450px', 'margin': '0 auto'}
