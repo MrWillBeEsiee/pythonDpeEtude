@@ -37,6 +37,8 @@ def style_c():
 
 
 if __name__ == '__main__':
+
+    px.set_mapbox_access_token(open(".mapbox_token").read())
     """
     req = requests.get(
         "https://koumoul.com/data-fair/api/v1/datasets/dpe-france/lines?size=10000&format=csv&select=nom_methode_dpe"
@@ -57,9 +59,8 @@ if __name__ == '__main__':
 
 
     #Création de la carte qui répertorie les maison par couleur en fonction de leur classe de consommation
-    francedecoupe = france.iloc[:10000]
-    map_point = px.scatter_mapbox(francedecoupe, lat="latitude", lon="longitude",zoom=5,
-        color=francedecoupe["classe_consommation_energie"],
+    map_point = px.scatter_mapbox(france, lat="latitude", lon="longitude",zoom=5,
+        color=france["classe_consommation_energie"],
         category_orders={"classe_consommation_energie":("A", "B", "C", "D", "E", "F", "G")},
         color_discrete_sequence=("#82a6fb", "#aac7fd", "#cdd9ec", "#ead4c8", "#f7b89c", "#f18d6f", "#d95847"),
         opacity=0.6)
@@ -73,6 +74,7 @@ if __name__ == '__main__':
     column_to_move = recap.pop("index")
     recap.insert(0, "index", column_to_move)
     recap = recap.drop(['longitude', 'latitude'], axis=1)
+    recap = recap.drop(['max', 'min'], axis=0)
 
     d_columns = [{'name': x, 'id': x} for x in recap.columns]
 
@@ -119,7 +121,9 @@ if __name__ == '__main__':
                         dcc.Input(id='search_dep', type='text',
                             placeholder='Rechercher par departements',
                             debounce=True,
-                            required=False, style={"width":'200px', 'height':'30px'})
+                            required=False,
+                            persistence=True,
+                            style={"width":'200px', 'height':'30px'})
                     ],
                 style={'width':'350px', 'height':'350px','vertical-align':'top', 'border':'1px solid black',
                     'display':'inline-block', 'margin':'0px 80px'}
@@ -154,6 +158,7 @@ if __name__ == '__main__':
                 id='Selection',
                 options=["consommation_energie", "estimation_ges"],
                 value="consommation_energie",
+                persistence=True,
                 inline=True
             ),
             dcc.Graph(id="graph"),
