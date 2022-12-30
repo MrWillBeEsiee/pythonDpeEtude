@@ -17,4 +17,5 @@ if __name__ == '__main__':
 
     fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
     fig.update_layout(autosize=True)
+    fig.update_traces(cluster=dict(enabled=True))
     fig.show()
