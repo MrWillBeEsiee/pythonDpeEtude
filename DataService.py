@@ -3,6 +3,17 @@ import pandas as pd
 class DataService:
     @staticmethod
     def InitData():
+
+        """
+            Initialise les données de consommation d'énergie en France à partir d'un fichier CSV.
+
+            Returns:
+            DataFrame: Données de consommation d'énergie en France.
+        """
+        #########################################################################################################
+        # Pour remplacer le fichier local par un fichier provenant d'une API de L'ademe décommenter le code ci-dessous
+        #########################################################################################################
+
         """
             req = requests.get(
                 "https://koumoul.com/data-fair/api/v1/datasets/dpe-france/lines?size=10000&format=csv&select=nom_methode_dpe"

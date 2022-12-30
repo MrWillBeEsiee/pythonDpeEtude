@@ -2,7 +2,6 @@ import dash
 from dash import dcc, Output, Input
 from dash import html
 import plotly.express as px
-from dash.dash_table import DataTable
 from DepartementsFig import DepartementsFig
 from Histogramme import Histogramme
 from InfoDisplay import InfoDisplay
@@ -10,7 +9,19 @@ from Utils import Utils
 from MarkerMap import MarkerMap
 from DataService import DataService
 
+"""
+Module de démarrage de l'application de visualisation de données DPE.
+
+Ce module importe les différents modules de l'application et initialise les données avant de démarrer le serveur Dash.
+"""
+
 if __name__ == '__main__':
+
+    """
+    Point d'entrée de l'application.
+
+    Initialise les données et démarre le serveur Dash.
+    """
 
     px.set_mapbox_access_token(open(".mapbox_token").read())
 
@@ -18,11 +29,19 @@ if __name__ == '__main__':
 
     app = dash.Dash(__name__)
 
+    """
+   Charge la clé d'accès Mapbox et initialise les données de l'application.
+   """
 
     d_table = InfoDisplay.InitdataSetFig(france)
     d_recap = InfoDisplay.InitRecap(france)
 
+    """
+    Initialise les données pour l'affichage des informations sur les maisons et le résumé de l'étude.
+    """
 
+###################################################################################################################################
+    #Description HTML du dash
     app.layout = html.Div([
         #mon logo
         Utils.add_logo(),
@@ -102,8 +121,6 @@ if __name__ == '__main__':
                     id='Selection2',
                     options=["Carte avec marqueurs", "Carte avec clusters"],
                     value="Carte avec marqueurs",
-                    persistence=True,
-                    inline=True
                 ),
                 dcc.Graph(id="graph2"),
             ],
@@ -137,12 +154,14 @@ if __name__ == '__main__':
         ),
         html.Div(
             children=[d_table],
-            style={'width': '850px', 'height': '750px', 'margin': '0 auto'}
+            style={'width': '850px', 'height': '500px', 'margin': '0 auto'}
         ),
+        html.I('@Ali KArim et Benadiba William')
     ],
         style={'text-align':'center', 'display':'inline-block', 'width':'100%'}
     )
-
+    ###########################################################################################################################################
+    #Définition des callback
     @app.callback(
         Output(component_id='bar_graph', component_property='figure'),
         Input(component_id='search_dep', component_property='value'),
@@ -151,15 +170,19 @@ if __name__ == '__main__':
     def update_bar(search_dep, Selection3):
         bar_fig = Histogramme.CreateHist(search_dep, Selection3, france)
         return bar_fig
-
+    '''
+    callback de l'histogramme
+    '''
 
     @app.callback(
-        Output("graph", "figure"),
-        Input("Selection", "value"))
+        Output(component_id="graph", component_property="figure"),
+        Input(component_id="Selection", component_property="value"))
     def display_choropleth(Selection):
         choropleth = DepartementsFig.CreateDepFig(Selection, france)
         return choropleth
-
+    '''
+    callback de la carte choropleth
+    '''
 
     @app.callback(
         Output("graph2", "figure"),
@@ -167,9 +190,14 @@ if __name__ == '__main__':
     def display_marker(Selection2):
         markermap = MarkerMap.CreateMarkerMap(Selection2, france)
         return markermap
+    '''
+    callback de la carte qui affiche les habitations et leur consommation
+    '''
 
     app.run_server(debug=True)
-
+    """
+    Démarre le serveur Dash sur le port 5000 en mode débogage.
+    """
 
 
 
