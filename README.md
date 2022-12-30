@@ -6,10 +6,10 @@ Ce guide vous permettra de déployer et d'utiliser le dashboard sur une autre ma
 Prérequis
 -----------------------------------------------
 Pour pouvoir utiliser le dashboard, vous aurez besoin d'installer les librairies suivantes :
-*plotly (version 5.11 mini)
-*dash
-*pandas
-*json
+* plotly (version 5.11 mini)
+* dash
+* pandas
+* json
 
 Vous pouvez les installer en utilisant la commande pip install comme ceci :
     pip install dash pandas plotly json
@@ -35,10 +35,10 @@ Rapport d'analyse
 =============================================
 A partir de cette étude, nous pouvons en tirer plusieurs conclusions :
 
-*La répartition des maisons consommatrices d'énergie est inégale dans l'ensemble de la France. En effet, certaines régions
+* La répartition des maisons consommatrices d'énergie est inégale dans l'ensemble de la France. En effet, certaines régions
 comme la Normandie ou la Bretagne ont une proportion significativement plus élevée de maisons classées dans les catégories
 "A" et "B" en termes de consommation d'énergie, tandis que d'autres régions comme l'Île-de-France ou la région PACA ont une
 proportion plus importante de maisons classées dans les catégories "E", "F" et "G".
-*La majorité des maisons françaises sont classées dans la catégorie "D" en termes de consommation d'énergie. Cela montre que
+* La majorité des maisons françaises sont classées dans la catégorie "D" en termes de consommation d'énergie. Cela montre que
 la consommation moyenne en énergie des maisons en France se situe autour de la moyenne nationale.
-*Le Calvados possède une moyenne d'émission de gaz à effet de serre anormalement grande 479 kw/h et 94
+* Le Calvados possède une moyenne d'émission de gaz à effet de serre anormalement grande 479 kw/h et 94
