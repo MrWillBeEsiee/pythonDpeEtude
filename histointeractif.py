@@ -75,6 +75,7 @@ if __name__ == '__main__':
 
     map_point.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
     map_point.update_layout(autosize=True)
+    map_point.update_traces(cluster=dict(enabled=True))
 
     recap = france.describe()
     recap['index'] = recap.index
@@ -115,16 +116,43 @@ if __name__ == '__main__':
         #des espaces
         *make_break(2),
         #Titre de mon dashboard
-        html.H1('Etude des dpe en France'),
+        html.H1(children='Etude des dpe en France', style={'textAlign': 'center', 'color': '#7FDBFF'}),
         *make_break(3),
         html.Div(
             children=[
                 html.Div(
                     children=[
+                    html.H2(children='Avant-propos',
+                    style={'textAlign': 'center', 'color': '#7FDBFF'})],
+                ),
+                html.Div(
+                    children=[
+                        html.Plaintext(children='Cette étude est l\'objet d\'un devoir scolaire réalisé par deux étudiants de deuxième'
+                                         'année en informatique.\n'
+                                         'Le dataset comporte 100 000 valeurs.\n'
+                                         'vous trouverez ci-dessous plusieurs graphiques interactifs qui tentent d\'apporter de la\n'
+                                         'visibilité quand à la répartition des maisons consommatrices d\'energie et polluante en France\n'
+                                         'Bonne lecture !',
+                        style={'textAlign': 'center', 'color': '#7FDBFF'})],
+                ),
+
+                html.Div(
+                    html.H2(children='Les classes de consommation DPE et GES en france',
+                            style={'textAlign': 'center', 'color': '#7FDBFF'}),
+                ),
+
+                addConsommationImage(),
+
+                html.Div(
+                    children=[
+                        html.H1(children='Histogramme des classes de consommations DPE et GES françaises',
+                        style={'textAlign': 'center', 'color': '#7FDBFF'}),
+                ]),
+                html.Div(
+                    children=[
                         html.H2('Département', style=style_c()),
                         html.H3('Rechercher par departements'),
                         *make_break(2),
-                        #Ajout de l'entrée requise
                         dcc.Input(id='search_dep', type='text',
                             placeholder='Rechercher par departements',
                             debounce=True,
@@ -132,13 +160,20 @@ if __name__ == '__main__':
                             persistence=True,
                             style={"width":'200px', 'height':'30px'})
                     ],
-                style={'width':'350px', 'height':'350px','vertical-align':'top', 'border':'1px solid black',
+                style={'width':'350px', 'height':'300px','vertical-align':'-275px', 'border':'1px solid black',
                     'display':'inline-block', 'margin':'0px 80px'}
                 ),
 
                 html.Div(
                     children=[
-                        dcc.Graph(id='bar_graph')
+                        dcc.RadioItems(
+                            id='Selection3',
+                            options=["Classe DPE", "Classe GES"],
+                            value="Classe DPE",
+                            persistence=True,
+                            inline=True
+                        ),
+                        dcc.Graph(id="bar_graph"),
                     ],
                 style={'width':'700px', 'display':'inline-block'}
                 ),
@@ -150,17 +185,22 @@ if __name__ == '__main__':
             children=[
                 html.H1(children='Cartographie des habitations et de leur consommation en France',
                         style={'textAlign': 'center', 'color': '#7FDBFF'}),
-                dcc.Graph(
-                    id='map_point',
-                    figure=map_point
+                dcc.RadioItems(
+                    id='Selection2',
+                    options=["Carte avec marqueurs", "Carte avec clusters"],
+                    value="Carte avec marqueurs",
+                    persistence=True,
+                    inline=True
                 ),
+                dcc.Graph(id="graph2"),
             ],
-            style={'width': '1200px', 'display': 'inline-block'},
+            style={'width': '800px', 'display': 'inline-block'},
         ),
+
         *make_break(2),
-        html.Div([
-            html.H4('Répartition des habitations françaises en fonction de leur classe de consommation energétique'),
-            html.P("Selectionnez une classe de consommation d'energie:"),
+        html.Div(
+            children=[html.H1('Régions françaises en fonction de leur DPE ou GES',
+                        style={'textAlign': 'center', 'color': '#7FDBFF'}),
             dcc.RadioItems(
                 id='Selection',
                 options=["consommation_energie", "estimation_ges"],
@@ -170,10 +210,17 @@ if __name__ == '__main__':
             ),
             dcc.Graph(id="graph"),
         ]),
-        addConsommationImage(),
         html.Div(
-            children=[d_recap],
-            style={'width': '850px', 'height': '450px', 'margin': '0 auto'}
+            children=[html.H1('Chiffres clef',
+            style={'textAlign': 'center', 'color': '#7FDBFF'})]
+        ),
+        html.Div(
+        children=[d_recap],
+        style={'width': '850px', 'height': '300px', 'margin': '0 auto'}
+        ),
+        html.Div(
+            children=[html.H1('Dataset',
+            style={'textAlign': 'center', 'color': '#7FDBFF'})]
         ),
         html.Div(
             children=[d_table],
@@ -185,47 +232,71 @@ if __name__ == '__main__':
 
     @app.callback(
         Output(component_id='bar_graph', component_property='figure'),
-        Input(component_id='search_dep', component_property='value')
+        Input(component_id='search_dep', component_property='value'),
+        Input(component_id="Selection3", component_property="value")
     )
-    def update_bar(search_value):
-        title_value = 'Toues les descriptions'
+    def update_bar(search_value, Selection3):
+        title_value = 'tous départements'
 
         data = france.copy(deep=True)
 
-        #le tri est effectué ici à l'aide de la saisi utilisateur
         if search_value:
             title_value = search_value
 
             data = data[data['tv016_departement_code'].str.contains(search_value, case=False)]
 
-
-        bar_fig = px.histogram(
-            data_frame=data, x='classe_consommation_energie', color='classe_consommation_energie',
-            title='Répartition dpe 77',
-            category_orders={"classe_consommation_energie": ("A", "B", "C", "D", "E", "F", "G")},
-            color_discrete_sequence=("#82a6fb", "#aac7fd", "#cdd9ec", "#ead4c8", "#f7b89c", "#f18d6f", "#d95847"),
-        )
-        return bar_fig
+        if(Selection3 == "Classe DPE"):
+            bar_fig = px.histogram(
+                data_frame=data, x='classe_consommation_energie', color='classe_consommation_energie',
+                title=f'Répartition des classes DPE : {title_value}',
+                category_orders={"classe_consommation_energie": ("A", "B", "C", "D", "E", "F", "G")},
+                color_discrete_sequence=("#82a6fb", "#aac7fd", "#cdd9ec", "#ead4c8", "#f7b89c", "#f18d6f", "#d95847"),
+            )
+            return bar_fig
+        else:
+            bar_fig = px.histogram(
+                data_frame=data, x='classe_estimation_ges', color='classe_estimation_ges',
+                title=f'Répartition des classes d\'estimation GES : {title_value}',
+                category_orders={"classe_consommation_energie": ("A", "B", "C", "D", "E", "F", "G")},
+                color_discrete_sequence=("#82a6fb", "#aac7fd", "#cdd9ec", "#ead4c8", "#f7b89c", "#f18d6f", "#d95847"),
+            )
+            return bar_fig
 
 
     @app.callback(
         Output("graph", "figure"),
         Input("Selection", "value"))
     def display_choropleth(Selection):
-        df = pd.read_csv("dpe-france.csv")
         with open('departements.geojson') as mon_fichier:
             geojson = json.load(mon_fichier)
 
         fig = px.choropleth(
-            df, geojson=geojson, color=Selection,
+            france, geojson=geojson, color=Selection,
             locations="tv016_departement_code", featureidkey="properties.code",
-            projection="mercator", range_color=[0, df[Selection].quantile(0.85)])
+            projection="mercator", range_color=[0, france[Selection].quantile(0.85)])
         fig.update_geos(fitbounds="locations", visible=False)
         fig.update_layout(mapbox_style="open-street-map")
         fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
         return fig
 
 
+    @app.callback(
+        Output("graph2", "figure"),
+        Input("Selection2", "value"))
+    def display_marker(Selection2):
+        map_point = px.scatter_mapbox(france, lat="latitude", lon="longitude", zoom=5,
+        color=france["classe_consommation_energie"],
+        category_orders={
+        "classe_consommation_energie": ("A", "B", "C", "D", "E", "F", "G")},
+        color_discrete_sequence=(
+        "#82a6fb", "#aac7fd", "#cdd9ec", "#ead4c8", "#f7b89c", "#f18d6f", "#d95847"),
+        opacity=0.6)
+
+        map_point.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
+        map_point.update_layout(autosize=True)
+        if(Selection2 == "Carte avec clusters"):
+            map_point.update_traces(cluster=dict(enabled=True))
+        return map_point
 
     app.run_server(debug=True)
 
