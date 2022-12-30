@@ -9,12 +9,12 @@ Pour pouvoir utiliser le dashboard, vous aurez besoin d'installer les librairies
 * plotly (version 5.11 mini)
 * dash
 * pandas
-* json
 
 Vous pouvez les installer en utilisant la commande pip install comme ceci :
     pip install dash pandas plotly json
 
 >Si vous avez déjà plotly mais dans une version inférieur à 5.11 vous pouvez le mettre à jour comme ceci :
+    
     pip install plotly -U
 
 Utilisation
@@ -29,6 +29,11 @@ Vous pouvez sélectionner différents éléments sur chaque graphique pour filtr
 Par exemple, vous pouvez sélectionner un département dans la liste déroulante pour afficher l'histogramme
 de la répartition des classes de consommation d'énergie ou d'émission de gaz à effet de serre pour ce département.
 Vous pouvez également utiliser la barre de recherche pour rechercher un département en particulier.
+
+Bugs connus
+-----------------------------------------------
+Sur la carte interactive avec les maisons et leur consommations le premier affichage s'affiche mal la légende n'est pas
+dans l'odre. Vous pouvez cliquez sur _carte avec clusters_ pour réactuliser la carte qui s'affichera correctement
 
 
 Rapport d'analyse
