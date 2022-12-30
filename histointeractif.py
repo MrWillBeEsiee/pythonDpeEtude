@@ -1,123 +1,36 @@
-import json
-
 import dash
 from dash import dcc, Output, Input
 from dash import html
 import plotly.express as px
-import requests
-import pandas as pd
 from dash.dash_table import DataTable
-
-
-# fonction qui définit le nombre de lignes vides à insérer
-def make_break(numBreaks):
-    br_list = [html.Br()] * numBreaks
-    return br_list
-
-
-# fonction d'ajout du logo
-def add_logo():
-    corp_logo = html.Img(
-        src='https://www.usinenouvelle.com/mediatheque/4/3/0/000271034_image_600x315.jpg',
-        style={'margin': '20px 20px 5px 5px',
-               'border': '1px dashed lightblue',
-               'display': 'inline-block'})
-    return corp_logo
-
-def addConsommationImage():
-    corp_logo = html.Img(
-        src='https://www.mesdepanneurs.fr/sites/default/files/blog/etiquette-energie-GES.jpeg',
-        style={'margin': '20px 20px 5px 5px',
-               'border': '1px dashed lightblue',
-               'display': 'inline-block'})
-    return corp_logo
-
-
-def style_c():
-    layout_style = {
-        'display': 'inline-block',
-        'margin': '0 auto',
-        'padding': '20px',
-    }
-    return layout_style
-
-
-
+from DepartementsFig import DepartementsFig
+from Histogramme import Histogramme
+from InfoDisplay import InfoDisplay
+from Utils import Utils
+from MarkerMap import MarkerMap
+from DataService import DataService
 
 if __name__ == '__main__':
 
     px.set_mapbox_access_token(open(".mapbox_token").read())
-    """
-    req = requests.get(
-        "https://koumoul.com/data-fair/api/v1/datasets/dpe-france/lines?size=10000&format=csv&select=nom_methode_dpe"
-        "%2Cdate_etablissement_dpe%2Cconsommation_energie%2Cclasse_consommation_energie%2Cestimation_ges%2Cclasse_estimation_ges"
-        "%2Cannee_construction%2Ctv016_departement_code%2Clatitude%2Clongitude")
-    url_content = req.content
-    csv_file = open('dpe-france.csv', 'wb')
-    csv_file.write(url_content)
-    csv_file.close()
-    """
-    france = pd.read_csv("dpe-france.csv")
 
-    france = france.drop(france[(france['classe_consommation_energie'] == 'N')].index)
-    france = france.drop(france[(france['classe_consommation_energie'] == 'H')].index)
-    france = france.drop(france[(france['classe_consommation_energie'] == 'I')].index)
+    france = DataService.InitData()
 
     app = dash.Dash(__name__)
 
 
-    #Création de la carte qui répertorie les maison par couleur en fonction de leur classe de consommation
-    map_point = px.scatter_mapbox(france, lat="latitude", lon="longitude",zoom=5,
-        color=france["classe_consommation_energie"],
-        category_orders={"classe_consommation_energie":("A", "B", "C", "D", "E", "F", "G")},
-        color_discrete_sequence=("#82a6fb", "#aac7fd", "#cdd9ec", "#ead4c8", "#f7b89c", "#f18d6f", "#d95847"),
-        opacity=0.6)
-
-    map_point.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
-    map_point.update_layout(autosize=True)
-    map_point.update_traces(cluster=dict(enabled=True))
-
-    recap = france.describe()
-    recap['index'] = recap.index
-    column_to_move = recap.pop("index")
-    recap.insert(0, "index", column_to_move)
-    recap = recap.drop(['longitude', 'latitude'], axis=1)
-    recap = recap.drop(['max', 'min'], axis=0)
-
-    d_columns = [{'name': x, 'id': x} for x in recap.columns]
-
-    d_recap = DataTable(
-        columns=d_columns,
-        data=recap.to_dict('records'),
-        cell_selectable=True,
-        sort_action='native',
-        filter_action='native'
-    )
-
-    data = france
-    data = data.drop(['longitude', 'latitude'], axis=1)
-    d_columns = [{'name': x, 'id': x} for x in data.columns]
-
-    d_table = DataTable(
-        columns=d_columns,
-        data=data.to_dict('records'),
-        cell_selectable=True,
-        sort_action='native',
-        filter_action='native',
-        page_action='native',
-        page_current=0,
-        page_size=10
-    )
+    d_table = InfoDisplay.InitdataSetFig(france)
+    d_recap = InfoDisplay.InitRecap(france)
 
 
     app.layout = html.Div([
         #mon logo
-        add_logo(),
+        Utils.add_logo(),
         #des espaces
-        *make_break(2),
+        *Utils.make_break(2),
         #Titre de mon dashboard
         html.H1(children='Etude des dpe en France', style={'textAlign': 'center', 'color': '#7FDBFF'}),
-        *make_break(3),
+        *Utils.make_break(3),
         html.Div(
             children=[
                 html.Div(
@@ -141,7 +54,7 @@ if __name__ == '__main__':
                             style={'textAlign': 'center', 'color': '#7FDBFF'}),
                 ),
 
-                addConsommationImage(),
+                Utils.addConsommationImage(),
 
                 html.Div(
                     children=[
@@ -150,9 +63,9 @@ if __name__ == '__main__':
                 ]),
                 html.Div(
                     children=[
-                        html.H2('Département', style=style_c()),
+                        html.H2('Département', style=Utils.style_c()),
                         html.H3('Rechercher par departements'),
-                        *make_break(2),
+                        *Utils.make_break(2),
                         dcc.Input(id='search_dep', type='text',
                             placeholder='Rechercher par departements',
                             debounce=True,
@@ -180,7 +93,7 @@ if __name__ == '__main__':
             ],
         style={'text-align':'center', 'display':'inline-block', 'width':'100%'}
         ),
-        *make_break(2),
+        *Utils.make_break(2),
         html.Div(
             children=[
                 html.H1(children='Cartographie des habitations et de leur consommation en France',
@@ -197,7 +110,7 @@ if __name__ == '__main__':
             style={'width': '800px', 'display': 'inline-block'},
         ),
 
-        *make_break(2),
+        *Utils.make_break(2),
         html.Div(
             children=[html.H1('Régions françaises en fonction de leur DPE ou GES',
                         style={'textAlign': 'center', 'color': '#7FDBFF'}),
@@ -235,68 +148,25 @@ if __name__ == '__main__':
         Input(component_id='search_dep', component_property='value'),
         Input(component_id="Selection3", component_property="value")
     )
-    def update_bar(search_value, Selection3):
-        title_value = 'tous départements'
-
-        data = france.copy(deep=True)
-
-        if search_value:
-            title_value = search_value
-
-            data = data[data['tv016_departement_code'].str.contains(search_value, case=False)]
-
-        if(Selection3 == "Classe DPE"):
-            bar_fig = px.histogram(
-                data_frame=data, x='classe_consommation_energie', color='classe_consommation_energie',
-                title=f'Répartition des classes DPE : {title_value}',
-                category_orders={"classe_consommation_energie": ("A", "B", "C", "D", "E", "F", "G")},
-                color_discrete_sequence=("#82a6fb", "#aac7fd", "#cdd9ec", "#ead4c8", "#f7b89c", "#f18d6f", "#d95847"),
-            )
-            return bar_fig
-        else:
-            bar_fig = px.histogram(
-                data_frame=data, x='classe_estimation_ges', color='classe_estimation_ges',
-                title=f'Répartition des classes d\'estimation GES : {title_value}',
-                category_orders={"classe_consommation_energie": ("A", "B", "C", "D", "E", "F", "G")},
-                color_discrete_sequence=("#82a6fb", "#aac7fd", "#cdd9ec", "#ead4c8", "#f7b89c", "#f18d6f", "#d95847"),
-            )
-            return bar_fig
+    def update_bar(search_dep, Selection3):
+        bar_fig = Histogramme.CreateHist(search_dep, Selection3, france)
+        return bar_fig
 
 
     @app.callback(
         Output("graph", "figure"),
         Input("Selection", "value"))
     def display_choropleth(Selection):
-        with open('departements.geojson') as mon_fichier:
-            geojson = json.load(mon_fichier)
-
-        fig = px.choropleth(
-            france, geojson=geojson, color=Selection,
-            locations="tv016_departement_code", featureidkey="properties.code",
-            projection="mercator", range_color=[0, france[Selection].quantile(0.85)])
-        fig.update_geos(fitbounds="locations", visible=False)
-        fig.update_layout(mapbox_style="open-street-map")
-        fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
-        return fig
+        choropleth = DepartementsFig.CreateDepFig(Selection, france)
+        return choropleth
 
 
     @app.callback(
         Output("graph2", "figure"),
         Input("Selection2", "value"))
     def display_marker(Selection2):
-        map_point = px.scatter_mapbox(france, lat="latitude", lon="longitude", zoom=5,
-        color=france["classe_consommation_energie"],
-        category_orders={
-        "classe_consommation_energie": ("A", "B", "C", "D", "E", "F", "G")},
-        color_discrete_sequence=(
-        "#82a6fb", "#aac7fd", "#cdd9ec", "#ead4c8", "#f7b89c", "#f18d6f", "#d95847"),
-        opacity=0.6)
-
-        map_point.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
-        map_point.update_layout(autosize=True)
-        if(Selection2 == "Carte avec clusters"):
-            map_point.update_traces(cluster=dict(enabled=True))
-        return map_point
+        markermap = MarkerMap.CreateMarkerMap(Selection2, france)
+        return markermap
 
     app.run_server(debug=True)
 
