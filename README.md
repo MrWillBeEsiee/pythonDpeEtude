@@ -4,10 +4,10 @@ User Guide
 
 Présentation
 ===========================================
-Ce projet permet de démarer un dashboard sur votre machine local et pouvoir étudier un jeu 
-de données présentant le diagnostique des DPE avec la consommation energétique et l'estimation de GES de nombreuses maisons françaises.
+Ce projet permet de démarrer un dashboard sur votre machine locale et pouvoir étudier un jeu 
+de données présentant le diagnostic des DPE avec la consommation energétique et l'estimation de GES de nombreuses maisons françaises.
 
->DPE : diagnostic de performance énergétique (DPE) renseigne sur la performance énergétique et climatique 
+>DPE : diagnostic de performance énergétique (DPE) qui renseigne sur la performance énergétique et climatique 
 > d’un logement ou d’un bâtiment (étiquettes A à G)
 
 Ce guide vous permettra de déployer et d'utiliser le dashboard sur une autre machine.
@@ -41,17 +41,17 @@ Si vous avez déjà plotly mais dans une version inférieur à 5.11 vous pouvez 
 
 Informations générales
 ------------------------------------------------
-Le dataset utilisé pour cette étude comporte 100 000 valeurs récupérés à la volée par l'API de l'ADEME
-!(https://data.ademe.fr/datasets/dpe-france)
-Vous pouvez vous rendre sur le site pour consulter quelques prémices d'étude et visualiser le dataset.
+Le dataset utilisé pour cette étude comporte 100 000 valeurs récupérées à la volée par l'API de l'ADEME
+: https://data.ademe.fr/datasets/dpe-france
+Vous pouvez vous rendre sur le site ci-dessus pour consulter quelques prémices d'études et visualiser le dataset.
 
 >Gardez en mémoire que ce travail est encore en cours de developpement
 et il se peut que quelques irrégulartiés dans les dataset ne soient pas gérés correctement.
-Si tel est le cas contactez moi par mail : william.benadiba@edu.esiee.fr
+Si tel est le cas contactez-nous par mail : william.benadiba@edu.esiee.fr ou karim.ali@edu.esiee.fr
 
 Utilisation
 -----------------------------------------------
-Maintenant que vous avez toutes les dépendances il vous suffit de lancer le programme avec la commande
+Maintenant que vous avez toutes les dépendances il vous suffit de lancer le programme avec la commande ci-dessous
 et de vous rendre à l'adresse http://127.0.0.1:8050/ qui est local à votre ordinateur
 
     python main.py
@@ -66,26 +66,25 @@ Par exemple, vous pouvez sélectionner un département dans la boîte de dialogu
 de la répartition des classes de consommation d'énergie ou d'émission de gaz à effet de serre pour ce département.
 
 
-Vous pouvez également observer la répartition des maison du dataset et leur pollution.
-
-Ou encore observer les emissions et consommations moyennes par régions
+Vous pouvez également observer la répartition des maisons du dataset et leur pollution, ou encore observer les emissions et
+ consommations moyennes par régions.
 
 >Notez qu'à la fin du dashboard vous pouvez avoir un résumé statistique du dataset et parcourir celui-ci.
 
 
 Bugs connus
 -----------------------------------------------
-Sur la carte interactive avec les maisons et leur consommations le premier affichage s'affiche mal la légende n'est pas
-dans l'odre. Vous pouvez cliquez sur _carte avec clusters_ pour réactuliser la carte qui s'affichera correctement
+Sur la carte interactive avec les maisons et leur consommations le premier affichage s'affiche mal et la légende n'est pas
+dans l'odre. Vous pouvez cliquer sur _carte avec clusters_ pour réactualiser celle-ci qui s'affichera correctement.
 
 
 Rapport d'analyse
 =============================================
-Nous pouvons tirer plusieurs conclusion de cette étude
+Nous pouvons tirer plusieurs conclusion de cette étude :
 
 * La répartition des maisons consommatrices d'énergie est inégale dans l'ensemble de la France. En effet, certaines régions
 comme la Normandie ou la Bretagne ont une proportion significativement plus élevée de maisons classées dans les catégories
-"A" et "B" en termes de consommation d'énergie, tandis que d'autres régions comme l'Île-de-France ou la région PACA ont une
+"A" et "B" en termes de consommation d'énergie, tandis que d'autres régions comme l'Île-de-France ou la PACA ont une
 proportion plus importante de maisons classées dans les catégories "E", "F" et "G".
 * La majorité des maisons françaises sont classées dans la catégorie "D" en termes de consommation d'énergie. Cela montre que
 la consommation moyenne en énergie des maisons en France se situe autour de la moyenne nationale.
@@ -93,22 +92,22 @@ la consommation moyenne en énergie des maisons en France se situe autour de la 
 On remarque aussi que les habitations les plus polluantes ne semblent pas se situer où on aurait pu l'imaginer notament à Paris
 et ses alentours mais plutôt le long de la diagonale du vide de la Meuse aux Landes où la densité de population y est faible.
 
-Lorsqu'on regarde les moyennes de consommation des habitations sur le territoire français nous notons une moyenne de 239
-kWhEP/m<sup>2</sup> et une estimation d'emission de gas à effet de serre de 31 CO2/m<sup>2</sup>.
+Lorsqu'on regarde les moyennes de consommation des habitations sur le territoire français, nous notons une moyenne de 239
+kWhEP/m<sup>2</sup> et une estimation d'émission de gaz à effet de serre de 31 CO2/m<sup>2</sup>.
 
 ###Conclusion 
 Nous ne sommes pas encore aux objectifs attendus par la France : _classe A et B pour toutes les habitations_ puisque la moyenne 
 française est entre D et E.
 
-Cependant les pays du sud et notamment ceux de la côte Ouest ont des résultats environ 20 % plus bas (en termes de consommation et rejet)
-sûrement dû aux températures plus élevés qui nécessitent moins d'isolation et d'investissement dans des dispositifs moins énergivores.
+Cependant les pays du sud et notamment ceux de la côte Ouest ont des résultats environ 20 % plus bas (en termes de consommation et rejets)
+cela est sûrement dû aux températures plus élevées qui nécessitent moins d'isolation et d'investissement dans des dispositifs moins énergivores.
 
-Developper Guide
+Developer Guide
 ===================================================
 
 Structure du projet
 ---------------------------------------------------
-Le projet se base sur les librairies dash et plotly de la société canadienne _dash.Inc_
+Le projet se base sur les librairies _dash_ et _plotly_ de la société canadienne _dash.Inc_
 Plotly permet la génération de graphique dynamique et dash permet de créer un dashboard en ne 
 manipulant exclusivement que du python.
 
@@ -122,11 +121,11 @@ plotly.express : https://plotly.com/python-api-reference/plotly.express.html
 
 dash : https://dash.plotly.com/
 
-Les dataset sont enregistrés et filtré à l'aide de la célèbre librairie très bien documenté pandas.
+Les dataset sont enregistrés et filtrés à l'aide de la célèbre librairie très bien documenté _pandas_.
 
 pandas : https://pandas.pydata.org/docs/
 
-Le projet comporte une classe main qui appelle différent services pour la génération de ses objets
+Le projet comporte une classe main qui appelle différents services pour la génération de ses objets :
 * La service d'instanciation du jeu de donnée :
   * DataService
 * Les classes d'instanciation des graphiques :

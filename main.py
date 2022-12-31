@@ -60,12 +60,12 @@ if __name__ == '__main__':
                 html.Div(
                     children=[
                         html.Plaintext(children='Cette étude est l\'objet d\'un devoir scolaire réalisé par deux étudiants de deuxième'
-                                         'année en informatique.\n'
+                                         ' année en informatique.\n'
                                          'Le dataset comporte 100 000 valeurs.\n'
                                          'Les unités pour la consommation energétique sont en kWhEP/m2< et l\'estimation '
                                          'des gaz à effet de serre en CO2/m2\n'
                                          'Vous trouverez ci-dessous plusieurs graphiques interactifs qui tentent d\'apporter de la\n'
-                                         'visibilité quand à la répartition des maisons consommatrices d\'energie et polluante en France\n'
+                                         'visibilité quant à la répartition des maisons consommatrices d\'énergie et polluantes en France.\n'
                                          'Bonne lecture !',
                         style={'textAlign': 'center', 'color': '#7FDBFF'})],
                 ),
@@ -85,10 +85,10 @@ if __name__ == '__main__':
                 html.Div(
                     children=[
                         html.H2('Département', style=Utils.style_c()),
-                        html.H3('Rechercher par departements'),
+                        html.H3('Rechercher par départements'),
                         *Utils.make_break(2),
                         dcc.Input(id='search_dep', type='text',
-                            placeholder='Rechercher par departements',
+                            placeholder='Rechercher par départements',
                             debounce=True,
                             required=False,
                             persistence=True,
@@ -143,7 +143,7 @@ if __name__ == '__main__':
             dcc.Graph(id="Choropleth"),
         ]),
         html.Div(
-            children=[html.H1('Chiffres clef',
+            children=[html.H1('Chiffres clés',
             style={'textAlign': 'center', 'color': '#7FDBFF'})]
         ),
         html.Div(
@@ -158,7 +158,7 @@ if __name__ == '__main__':
             children=[d_table],
             style={'width': '850px', 'height': '500px', 'margin': '0 auto'}
         ),
-        html.I('@Ali KArim et Benadiba William')
+        html.I('@Ali Karim et Benadiba William')
     ],
         style={'text-align':'center', 'display':'inline-block', 'width':'100%'}
     )
