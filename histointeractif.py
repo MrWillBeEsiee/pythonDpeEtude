@@ -99,7 +99,7 @@ if __name__ == '__main__':
                 html.Div(
                     children=[
                         dcc.RadioItems(
-                            id='Selection3',
+                            id='SelectionBarGraph',
                             options=["Classe DPE", "Classe GES"],
                             value="Classe DPE",
                             persistence=True,
@@ -118,11 +118,11 @@ if __name__ == '__main__':
                 html.H1(children='Cartographie des habitations et de leur consommation en France',
                         style={'textAlign': 'center', 'color': '#7FDBFF'}),
                 dcc.RadioItems(
-                    id='Selection2',
+                    id='SelectionScatterMapBox',
                     options=["Carte avec marqueurs", "Carte avec clusters"],
                     value="Carte avec marqueurs",
                 ),
-                dcc.Graph(id="graph2"),
+                dcc.Graph(id="ScatterMapBox"),
             ],
             style={'width': '800px', 'display': 'inline-block'},
         ),
@@ -132,13 +132,13 @@ if __name__ == '__main__':
             children=[html.H1('Régions françaises en fonction de leur DPE ou GES',
                         style={'textAlign': 'center', 'color': '#7FDBFF'}),
             dcc.RadioItems(
-                id='Selection',
+                id='SelectionChoropleth',
                 options=["consommation_energie", "estimation_ges"],
                 value="consommation_energie",
                 persistence=True,
                 inline=True
             ),
-            dcc.Graph(id="graph"),
+            dcc.Graph(id="Choropleth"),
         ]),
         html.Div(
             children=[html.H1('Chiffres clef',
@@ -165,7 +165,7 @@ if __name__ == '__main__':
     @app.callback(
         Output(component_id='bar_graph', component_property='figure'),
         Input(component_id='search_dep', component_property='value'),
-        Input(component_id="Selection3", component_property="value")
+        Input(component_id="SelectionBarGraph", component_property="value")
     )
     def update_bar(search_dep, Selection3):
         bar_fig = Histogramme.CreateHist(search_dep, Selection3, france)
@@ -175,8 +175,8 @@ if __name__ == '__main__':
     '''
 
     @app.callback(
-        Output(component_id="graph", component_property="figure"),
-        Input(component_id="Selection", component_property="value"))
+        Output(component_id="Choropleth", component_property="figure"),
+        Input(component_id="SelectionChoropleth", component_property="value"))
     def display_choropleth(Selection):
         choropleth = DepartementsFig.CreateDepFig(Selection, france)
         return choropleth
@@ -185,8 +185,8 @@ if __name__ == '__main__':
     '''
 
     @app.callback(
-        Output("graph2", "figure"),
-        Input("Selection2", "value"))
+        Output("ScatterMapBox", "figure"),
+        Input("SelectionScatterMapBox", "value"))
     def display_marker(Selection2):
         markermap = MarkerMap.CreateMarkerMap(Selection2, france)
         return markermap
