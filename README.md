@@ -67,23 +67,33 @@ Developper Guide
 ===================================================
 ```mermaid
 graph LR
-    subgraph "Application Dash"
+    subgraph "App"
         App((app))
-        Input_1((Input))
-        Input_2((Input))
-        Output_1((Output))
-        Output_2((Output))
+    end
+    subgraph "Histogramme"
+        search_dep((Input_1))
+        SelectionBarGraph((Input_2))
+        bar_graph((Output_1))
+    end
+    subgraph "ScatterMapBox"
+        SelectionScatterMapBox((Input_1))
+        ScatterMapBox((Output_1))
+    end
+    subgraph "ChoroplethMap"
+        SelectionChoropleth((Input_1))
+        Choropleth((Output_1))
     end
     subgraph "Callbacks"
-        Callback_1((callback_1))
-        Callback_2((callback_2))
+        Callback_1((HistogrammeCallBack))
+        Callback_2((ScatterMapBoxCallBack))
+        Callback_3((ChoroplethCallBack))
     end
-    App --> Callback_1
-    App --> Callback_2
-    Input_1 --> Callback_1
-    Input_2 --> Callback_2
-    Callback_1 --> Output_1
-    Callback_2 --> Output_2
+    App --> HistogrammeCallBack
+    App --> ScatterMapBoxCallBack
+    App --> ChoroplethCallBack
+    search_dep --> HistogrammeCallBack
+    SelectionBarGraph --> HistogrammeCallBack
+    bar_graph --> HistogrammeCallBack
 ```
 
 
