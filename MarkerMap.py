@@ -19,6 +19,7 @@ class MarkerMap:
         color=france["classe_consommation_energie"],
         category_orders=dict(classe_consommation_energie=["A", "B", "C", "D", "E", "F", "G"]),
         color_discrete_sequence=("#82a6fb", "#aac7fd", "#cdd9ec", "#ead4c8", "#f7b89c", "#f18d6f", "#d95847"),
+        hover_data=dict(consommation_energie="<b>%{consommation_energie}</b>", estimation_ges=True, latitude=False, longitude=False),
         opacity=0.6)
 
         if(Selection2 == "Carte avec clusters"):

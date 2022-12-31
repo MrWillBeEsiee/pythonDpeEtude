@@ -4,7 +4,7 @@ from dash import html
 import plotly.express as px
 from DepartementsFig import DepartementsFig
 from Histogramme import Histogramme
-from InfoDisplay import InfoDisplay
+from InfoDisplayFig import InfoDisplay
 from Utils import Utils
 from MarkerMap import MarkerMap
 from DataService import DataService
@@ -105,7 +105,7 @@ if __name__ == '__main__':
                             persistence=True,
                             inline=True
                         ),
-                        dcc.Graph(id="bar_graph"),
+                        dcc.Graph(id="Bar_graph"),
                     ],
                 style={'width':'700px', 'display':'inline-block'}
                 ),
@@ -163,7 +163,7 @@ if __name__ == '__main__':
     ###########################################################################################################################################
     #Définition des callback
     @app.callback(
-        Output(component_id='bar_graph', component_property='figure'),
+        Output(component_id='Bar_graph', component_property='figure'),
         Input(component_id='search_dep', component_property='value'),
         Input(component_id="SelectionBarGraph", component_property="value")
     )
