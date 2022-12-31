@@ -6,6 +6,13 @@ Ce guide vous permettra de déployer et d'utiliser le dashboard sur une autre ma
 
 Prérequis
 -----------------------------------------------
+
+Pour pouvoir lancer le dashboard vous devez installer git ou télécharger le dépôt sur votre espace personnel
+
+Vous pouvez cloner le dépôt facilement à l'aide de la commande
+
+    git clone https://github.com/MrWillBeEsiee/pythonDpeEtude.git
+
 Pour pouvoir utiliser le dashboard, vous aurez besoin d'installer les librairies suivantes :
 * plotly (version 5.11 mini)
 * dash
@@ -36,11 +43,8 @@ Si tel est le cas contactez moi par mail : william.benadiba@edu.esiee.fr
 
 Utilisation
 -----------------------------------------------
-Maintenant que vous avez toutes les dépendances il vous suffit de cloner le projet sur votre répertoir personnel avec la commande : 
-
-    git clone https://github.com/MrWillBeEsiee/pythonDpeEtude.git
-
-Et de lancer le programmes avec la commande :
+Maintenant que vous avez toutes les dépendances il vous suffit de lancer le programme avec la commande
+et de vous rendre à l'adresse http://127.0.0.1:8050/ qui est local à votre ordinateur
 
     python main.py
 
