@@ -2,6 +2,14 @@ User Guide
 =============================================
 ![ESIEE Logo](https://www.esiee.fr/sites/all/themes/custom/esiee_theme/logo.png)
 
+Présentation
+===========================================
+Ce projet permet de démarer un dashboard sur votre machine local et pouvoir étudier un jeu 
+de données présentant le diagnostique des DPE avec la consommation energétique et l'estimation de GES de nombreuses maisons françaises.
+
+>DPE : diagnostic de performance énergétique (DPE) renseigne sur la performance énergétique et climatique 
+> d’un logement ou d’un bâtiment (étiquettes A à G)
+
 Ce guide vous permettra de déployer et d'utiliser le dashboard sur une autre machine.
 
 Prérequis
@@ -81,6 +89,19 @@ comme la Normandie ou la Bretagne ont une proportion significativement plus éle
 proportion plus importante de maisons classées dans les catégories "E", "F" et "G".
 * La majorité des maisons françaises sont classées dans la catégorie "D" en termes de consommation d'énergie. Cela montre que
 la consommation moyenne en énergie des maisons en France se situe autour de la moyenne nationale.
+  
+On remarque aussi que les habitations les plus polluantes ne semblent pas se situer où on aurait pu l'imaginer notament à Paris
+et ses alentours mais plutôt le long de la diagonale du vide de la Meuse aux Landes où la densité de population y est faible.
+
+Lorsqu'on regarde les moyennes de consommation des habitations sur le territoire français nous notons une moyenne de 239
+kWhEP/m<sup>2</sup> et une estimation d'emission de gas à effet de serre de 31 CO2/m<sup>2</sup>.
+
+###Conclusion 
+Nous ne sommes pas encore aux objectifs attendus par la France : _classe A et B pour toutes les habitations_ puisque la moyenne 
+française est entre D et E.
+
+Cependant les pays du sud et notamment ceux de la côte Ouest ont des résultats environ 20 % plus bas (en termes de consommation et rejet)
+sûrement dû aux températures plus élevés qui nécessitent moins d'isolation et d'investissement dans des dispositifs moins énergivores.
 
 Developper Guide
 ===================================================
