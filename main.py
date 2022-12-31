@@ -62,7 +62,9 @@ if __name__ == '__main__':
                         html.Plaintext(children='Cette étude est l\'objet d\'un devoir scolaire réalisé par deux étudiants de deuxième'
                                          'année en informatique.\n'
                                          'Le dataset comporte 100 000 valeurs.\n'
-                                         'vous trouverez ci-dessous plusieurs graphiques interactifs qui tentent d\'apporter de la\n'
+                                         'Les unités pour la consommation energétique sont en kWhEP/m2< et l\'estimation '
+                                         'des gaz à effet de serre en CO2/m2\n'
+                                         'Vous trouverez ci-dessous plusieurs graphiques interactifs qui tentent d\'apporter de la\n'
                                          'visibilité quand à la répartition des maisons consommatrices d\'energie et polluante en France\n'
                                          'Bonne lecture !',
                         style={'textAlign': 'center', 'color': '#7FDBFF'})],
