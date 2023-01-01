@@ -32,7 +32,7 @@ Vous pouvez les installer en utilisant la commande pip install comme ceci :
 
 Vous pouvez aussi installer toutes les librairies de cette façon :
 
-    python -m pip install -r requirements.txt
+    python -m pip install -r requirments.txt
 
 Si vous avez déjà plotly mais dans une version inférieur à 5.11 vous pouvez le mettre à jour comme ceci :
     
